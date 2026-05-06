@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from sqlglot import exp
 from sqlglot.expressions.synapse import (
     ClusteredColumnstoreIndexProperty,
     ClusteredIndexProperty,

@@ -19,15 +19,17 @@ class SynapseGenerator(TSQLGenerator):
         **TSQLGenerator.TRANSFORMS,
         # structure
         ClusteredColumnstoreIndexProperty: lambda self, e: (
-            "CLUSTERED COLUMNSTORE INDEX ORDER ({})".format(self.expressions(e, flat=True))
+            f"CLUSTERED COLUMNSTORE INDEX ORDER ({self.expressions(e, flat=True)})"
             if e.expressions
             else "CLUSTERED COLUMNSTORE INDEX"
         ),
         HeapProperty: lambda self, e: "HEAP",
-        ClusteredIndexProperty: lambda self, e: "CLUSTERED INDEX ({})".format(self.expressions(e, flat=True)),
+        ClusteredIndexProperty: lambda self, e: (
+            f"CLUSTERED INDEX ({self.expressions(e, flat=True)})"
+        ),
         # distribution
         DistributionProperty: lambda self, e: "DISTRIBUTION = {}".format(self.sql(e, "this")),
-        HashDistribution: lambda self, e: "HASH({})".format(self.expressions(e, flat=True)),
+        HashDistribution: lambda self, e: f"HASH({self.expressions(e, flat=True)})",
         RoundRobinDistribution: lambda self, e: "ROUND_ROBIN",
         ReplicateDistribution: lambda self, e: "REPLICATE",
         # partition
