@@ -93,6 +93,7 @@ DIALECTS = [
     "Spark2",
     "SQLite",
     "StarRocks",
+    "Synapse",
     "Tableau",
     "Teradata",
     "Trino",
