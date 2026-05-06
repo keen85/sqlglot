@@ -1,15 +1,6 @@
 from __future__ import annotations
 
-from sqlglot.expressions.synapse import (
-    ClusteredColumnstoreIndexProperty,
-    ClusteredIndexProperty,
-    DistributionProperty,
-    HashDistribution,
-    HeapProperty,
-    ReplicateDistribution,
-    RoundRobinDistribution,
-    SynapsePartitionProperty,
-)
+from sqlglot import exp
 from sqlglot.parsers.tsql import TSQLParser
 from sqlglot.tokens import TokenType
 
@@ -19,39 +10,40 @@ class SynapseParser(TSQLParser):
         **TSQLParser.PROPERTY_PARSERS,
         "CLUSTERED": lambda self: self._parse_clustered_columnstore_property(),
         "CLUSTERED INDEX": lambda self: self._parse_clustered_index_property(),
-        "HEAP": lambda self: HeapProperty(),
+        "HEAP": lambda self: exp.HeapProperty(),
         "DISTRIBUTION": lambda self: self._parse_distribution_property(),
         "PARTITION": lambda self: self._parse_synapse_partition_property(),
     }
 
-    def _parse_clustered_columnstore_property(self) -> ClusteredColumnstoreIndexProperty:
+    def _parse_clustered_columnstore_property(self):
         if self._match_text_seq("COLUMNSTORE", "INDEX"):
             if self._match_text_seq("ORDER"):
                 cols = self._parse_wrapped_csv(self._parse_id_var)
-                return ClusteredColumnstoreIndexProperty(expressions=cols)
-            return ClusteredColumnstoreIndexProperty()
+                return exp.ClusteredColumnstoreIndexProperty(expressions=cols)
+            return exp.ClusteredColumnstoreIndexProperty()
+
         self.raise_error("Expected COLUMNSTORE INDEX after CLUSTERED")
 
-    def _parse_clustered_index_property(self) -> ClusteredIndexProperty:
+    def _parse_clustered_index_property(self):
         cols = self._parse_wrapped_csv(self._parse_ordered)
-        return ClusteredIndexProperty(expressions=cols)
+        return exp.ClusteredIndexProperty(expressions=cols)
 
-    def _parse_distribution_property(self) -> DistributionProperty:
+    def _parse_distribution_property(self):
         self._match(TokenType.EQ)
 
         if self._match_text_seq("HASH"):
             cols = self._parse_wrapped_csv(self._parse_id_var)
-            return DistributionProperty(this=HashDistribution(expressions=cols))
+            return exp.DistributionProperty(this=exp.HashDistribution(expressions=cols))
 
         if self._match_text_seq("ROUND_ROBIN"):
-            return DistributionProperty(this=RoundRobinDistribution())
+            return exp.DistributionProperty(this=exp.RoundRobinDistribution())
 
         if self._match_text_seq("REPLICATE"):
-            return DistributionProperty(this=ReplicateDistribution())
+            return exp.DistributionProperty(this=exp.ReplicateDistribution())
 
         self.raise_error("Expected HASH, ROUND_ROBIN, or REPLICATE after DISTRIBUTION =")
 
-    def _parse_synapse_partition_property(self) -> SynapsePartitionProperty:
+    def _parse_synapse_partition_property(self):
         self._match(TokenType.L_PAREN)
         col = self._parse_id_var()
         self._match_text_seq("RANGE")
@@ -66,4 +58,4 @@ class SynapseParser(TSQLParser):
         values = self._parse_wrapped_csv(self._parse_primary)
         self._match(TokenType.R_PAREN)
 
-        return SynapsePartitionProperty(this=col, side=side, values=values)
+        return exp.SynapsePartitionProperty(this=col, side=side, values=values)

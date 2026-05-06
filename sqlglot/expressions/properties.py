@@ -223,6 +223,38 @@ class ClusteredByProperty(Property):
     arg_types = {"expressions": True, "sorted_by": False, "buckets": True}
 
 
+class ClusteredColumnstoreIndexProperty(Property):
+    arg_types = {"expressions": False}
+
+
+class ClusteredIndexProperty(Property):
+    arg_types = {"expressions": True}
+
+
+class DistributionProperty(Property):
+    arg_types = {"this": True}
+
+
+class SynapsePartitionProperty(Property):
+    arg_types = {
+        "this": True,
+        "side": False,
+        "values": False,
+    }
+
+
+class HashDistribution(Expression):
+    arg_types = {"expressions": True}
+
+
+class RoundRobinDistribution(Expression):
+    arg_types = {}
+
+
+class ReplicateDistribution(Expression):
+    arg_types = {}
+
+
 class DictProperty(Property):
     arg_types = {"this": True, "kind": True, "settings": False}
 
@@ -594,16 +626,20 @@ class Properties(Expression):
         "DISTKEY": DistKeyProperty,
         "DISTRIBUTED_BY": DistributedByProperty,
         "DISTSTYLE": DistStyleProperty,
+        "DISTRIBUTION": DistributionProperty,
         "ENGINE": EngineProperty,
         "EXECUTE AS": ExecuteAsProperty,
-        "FORMAT": FileFormatProperty,
+        "HEAP": HeapProperty,
         "LANGUAGE": LanguageProperty,
         "LOCATION": LocationProperty,
         "LOCK": LockProperty,
+        "PARTITION": SynapsePartitionProperty,
         "PARTITIONED_BY": PartitionedByProperty,
         "RETURNS": ReturnsProperty,
         "ROW_FORMAT": RowFormatProperty,
         "SORTKEY": SortKeyProperty,
+        "CLUSTERED COLUMNSTORE INDEX": ClusteredColumnstoreIndexProperty,
+        "CLUSTERED INDEX": ClusteredIndexProperty,
         "ENCODE": EncodeProperty,
         "INCLUDE": IncludeProperty,
     }
