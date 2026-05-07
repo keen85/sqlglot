@@ -45,6 +45,11 @@ class TestSynapse(Validator):
             "CREATE TABLE t (a INTEGER, b VARCHAR(100)) WITH (PARTITION (a RANGE RIGHT FOR VALUES (1, 2, 3)))"
         )
 
+        # Synapse-specific: LOCATION property
+        self.validate_identity(
+            "CREATE TABLE t (a INTEGER, b VARCHAR(100)) WITH (LOCATION = '/data/path')"
+        )
+
         # Combined Synapse table options
         self.validate_identity(
             "CREATE TABLE t (a INTEGER, b VARCHAR(100)) WITH (DISTRIBUTION = HASH(a), CLUSTERED COLUMNSTORE INDEX)"

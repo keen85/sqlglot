@@ -608,6 +608,7 @@ x + interval '1' month
 | Spark | Official |
 | SQLite | Official |
 | StarRocks | Official |
+| Synapse | Community |
 | Tableau | Official |
 | Teradata | Community |
 | Trino | Official |

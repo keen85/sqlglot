@@ -107,6 +107,7 @@ class Dialects(str, Enum):
     SPARK = "spark"
     SPARK2 = "spark2"
     SQLITE = "sqlite"
+    SYNAPSE = "synapse"
     STARROCKS = "starrocks"
     TABLEAU = "tableau"
     TERADATA = "teradata"

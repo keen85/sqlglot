@@ -5,7 +5,9 @@ from sqlglot.parsers.synapse import SynapseParser
 
 
 class Synapse(TSQL):
-    """Azure Synapse Analytics SQL dialect (TSQL sub-dialect)."""
+    """
+    Azure Synapse Analytics Dedicated SQL Pool is a variant of the TSQL dialect.
+    """
 
     Parser = SynapseParser
     Generator = SynapseGenerator
