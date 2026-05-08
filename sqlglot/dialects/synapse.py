@@ -21,4 +21,6 @@ SynapseGenerator.PROPERTIES_LOCATION = {
     exp.DistributionProperty: exp.Properties.Location.POST_WITH,
     exp.SynapsePartitionProperty: exp.Properties.Location.POST_WITH,
     exp.LocationProperty: exp.Properties.Location.POST_WITH,
+    exp.DataSourceProperty: exp.Properties.Location.POST_WITH,
+    exp.FileFormatProperty: exp.Properties.Location.POST_WITH,
 }

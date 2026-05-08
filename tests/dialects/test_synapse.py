@@ -47,7 +47,7 @@ class TestSynapse(Validator):
 
         # Synapse-specific: LOCATION property
         self.validate_identity(
-            "CREATE TABLE t (a INTEGER, b VARCHAR(100)) WITH (LOCATION = '/data/path')"
+            "CREATE EXTERNAL TABLE t (a INTEGER, b VARCHAR(100)) WITH (DATA_SOURCE = some_data_lake_ds, LOCATION = '/data/path', FILE_FORMAT = parquet_file_format)"
         )
 
         # Combined Synapse table options

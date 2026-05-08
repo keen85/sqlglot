@@ -18,6 +18,8 @@ class SynapseParser(TSQLParser):
         "DISTRIBUTION": lambda self: self._parse_distribution_property(),
         "PARTITION": lambda self: self._parse_synapse_partition_property(),
         "LOCATION": lambda self: self._parse_location_property(),
+        "DATA_SOURCE": lambda self: self._parse_data_source_property(),
+        "FILE_FORMAT": lambda self: self._parse_file_format_property(),
     }
 
     def _parse_clustered_columnstore_property(self):
@@ -68,3 +70,11 @@ class SynapseParser(TSQLParser):
     def _parse_location_property(self):
         self._match(TokenType.EQ)
         return exp.LocationProperty(this=self._parse_primary())
+
+    def _parse_data_source_property(self):
+        self._match(TokenType.EQ)
+        return exp.DataSourceProperty(this=self._parse_id_var())
+
+    def _parse_file_format_property(self):
+        self._match(TokenType.EQ)
+        return exp.FileFormatProperty(this=self._parse_id_var())

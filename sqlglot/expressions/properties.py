@@ -169,6 +169,10 @@ class FileFormatProperty(Property):
     arg_types = {"this": False, "expressions": False, "hive_format": False}
 
 
+class DataSourceProperty(Property):
+    arg_types = {"this": True}
+
+
 class CredentialsProperty(Property):
     arg_types = {"expressions": True}
 
@@ -638,6 +642,8 @@ class Properties(Expression):
         "RETURNS": ReturnsProperty,
         "ROW_FORMAT": RowFormatProperty,
         "SORTKEY": SortKeyProperty,
+        "DATA_SOURCE": DataSourceProperty,
+        "FILE_FORMAT": FileFormatProperty,
         "CLUSTERED COLUMNSTORE INDEX": ClusteredColumnstoreIndexProperty,
         "CLUSTERED INDEX": ClusteredIndexProperty,
         "ENCODE": EncodeProperty,

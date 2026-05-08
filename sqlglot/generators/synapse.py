@@ -39,6 +39,12 @@ class SynapseGenerator(TSQLGenerator):
     def locationproperty_sql(self, expression: exp.LocationProperty) -> str:
         return f"LOCATION = {self.sql(expression, 'this')}"
 
+    def datasourceproperty_sql(self, expression: exp.DataSourceProperty) -> str:
+        return f"DATA_SOURCE = {self.sql(expression, 'this')}"
+
+    def fileformatproperty_sql(self, expression: exp.FileFormatProperty) -> str:
+        return f"FILE_FORMAT = {self.sql(expression, 'this')}"
+
     def synapsepartitionproperty_sql(self, expression: exp.SynapsePartitionProperty) -> str:
         this = self.sql(expression, "this")
         side = f" {expression.args['side']}" if expression.args.get("side") else ""
