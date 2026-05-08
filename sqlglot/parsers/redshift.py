@@ -56,6 +56,11 @@ class RedshiftParser(PostgresParser):
         "SPLIT_TO_ARRAY": lambda args: exp.StringToArray(
             this=seq_get(args, 0), expression=seq_get(args, 1) or exp.Literal.string(",")
         ),
+        "ARRAY_CONTAINS": lambda args: exp.ArrayContains(
+            this=seq_get(args, 0),
+            expression=seq_get(args, 1),
+            check_null=seq_get(args, 2),
+        ),
         "STRTOL": exp.FromBase.from_arg_list,
         "TEXTLEN": exp.Length.from_arg_list,
     }
@@ -99,7 +104,7 @@ class RedshiftParser(PostgresParser):
         to = self._parse_types()
         self._match(TokenType.COMMA)
         this = self._parse_bitwise()
-        return self.expression(exp.TryCast(this=this, to=to, safe=safe))
+        return self.expression(exp.Cast(this=this, to=to, safe=safe))
 
     def _parse_object_transform(self) -> exp.ObjectTransform:
         this = self._parse_column()

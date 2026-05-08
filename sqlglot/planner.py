@@ -349,7 +349,7 @@ class Join(Step):
     def __init__(self) -> None:
         super().__init__()
         self.source_name: str | None = None
-        self.joins: dict[str, dict[str, list[str] | exp.Expr]] = {}
+        self.joins: dict[str, dict[str, list[str] | exp.Expr | list[exp.Expr]]] = {}
 
     def _to_s(self, indent: str) -> list[str]:
         lines = [f"{indent}Source: {self.source_name or self.name}"]
